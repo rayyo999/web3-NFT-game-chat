@@ -1,10 +1,10 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useState } from 'react';
 import { ethers } from 'ethers';
 import ChatMessages from '../../components/ChatMessages';
-import { InfoContext } from '../../components/InfoContext';
+import { useChatroomContext } from '../../components/ChatroomContext';
 
 const ChatRoom: FC = () => {
-  const { sendMessage } = useContext(InfoContext);
+  const { sendMessage }: any = useChatroomContext();
   const [message, setMessage] = useState('');
   const [receiver, setReceiver] = useState('');
   const [receiverIsValid, setReceiverIsValid] = useState(false);

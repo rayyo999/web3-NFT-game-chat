@@ -1,13 +1,14 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { InfoContext } from './InfoContext';
+import { useChatroomContext } from './ChatroomContext';
 import { Ichat } from '../utils/types/Ichat';
 
 const toggleTypes = ['Public', 'All', 'Private'];
+// enum messageType {PUBLIC, ALL, PRIVATE}
 
 const ChatMessages: FC = () => {
-  const { chats, setChats, defaultMessageReceiver, currentAccount } =
-    useContext(InfoContext);
+  const { chats, setChats, defaultMessageReceiver, currentAccount }: any =
+    useChatroomContext();
   const [showType, setShowType] = useState(toggleTypes[1]);
   const [showChats, setShowChats] = useState(chats);
   const handleShortenAddress = (id: number) => {
@@ -25,12 +26,14 @@ const ChatMessages: FC = () => {
     if (showType === toggleTypes[2]) {
       filteredChats = chats.filter(
         (chat: Ichat) =>
-          chat.to.toLowerCase() === currentAccount.toLowerCase() ||
-          chat.from.toLowerCase() === currentAccount.toLowerCase()
+          chat.to.toLowerCase() !== defaultMessageReceiver.toLowerCase() &&
+          (chat.to.toLowerCase() === currentAccount.toLowerCase() ||
+            chat.from.toLowerCase() === currentAccount.toLowerCase())
       );
     } else if (showType === toggleTypes[0]) {
       filteredChats = chats.filter(
-        (chat: Ichat) => chat.to === defaultMessageReceiver
+        (chat: Ichat) =>
+          chat.to.toLowerCase() === defaultMessageReceiver.toLowerCase()
       );
     }
     setShowChats(filteredChats);

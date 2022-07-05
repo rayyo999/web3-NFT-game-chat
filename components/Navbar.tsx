@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { FC, useContext } from 'react';
 import { motion } from 'framer-motion';
-import { InfoContext } from './InfoContext';
+import { useChatroomContext } from './ChatroomContext';
 
 const Navbar: FC = () => {
-  const { currentAccount, getAccount } = useContext(InfoContext);
-  const nav = ['Home', 'ChatRoom', 'NFT', 'NFTGame', 'Control'];
+  const { currentAccount, getAccount }: any = useChatroomContext();
+  const nav = ['Home', 'ChatRoom', 'NFT', 'Control'];
   return (
     <nav className=' bg-black text-white flex justify-end items-center gap-4'>
       {nav.map((item, index) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, FC } from 'react';
+import { useState, useEffect, createContext, FC, useContext } from 'react';
 import { Contract, providers, EventFilter, Event, utils } from 'ethers';
 import chatContractInterface from '../utils/contracts/chatContract.json';
 import { Ichat } from '../utils/types/Ichat';
@@ -11,14 +11,15 @@ const defaultMessageReceiver = '0x8b4E564967E54a8f7a6A493D5EDE1759e78DfD53';
 const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373';
 const to = '0xbe61E58374B311E1266c1A2c100736A2D3c88789';
 const admain = '0xD23Fe32da86644edE2B9c3b8c3e80Bc95D429e02';
-export const InfoContext: any = createContext(null);
 
-const InfoProvier: FC<any> = ({ children }) => {
+const ChatroomContext: any = createContext(null);
+export const useChatroomContext = () => useContext(ChatroomContext);
+
+const ChatroomProvier: FC<any> = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState('');
   const [chatContract, setChatContract] = useState<Contract | undefined>();
   const [chats, setChats] = useState<Ichat[]>([]);
   // const [chatsFiltered, setChatsFiltered] = useState<Ichat[]>([]);
-
   let ethereum: any;
   if (typeof window !== 'undefined') {
     ethereum = window.ethereum;
@@ -96,6 +97,7 @@ const InfoProvier: FC<any> = ({ children }) => {
       console.error(error);
     }
   };
+
   // const filterChats = async () => {
   //   try {
   //     if (!chatContract) {
@@ -184,7 +186,7 @@ const InfoProvier: FC<any> = ({ children }) => {
     return () => {
       clearInterval(check);
     };
-  }, [currentAccount, chatContract]);
+  }, [currentAccount]);
 
   useEffect(() => {
     if (!chatContract) return;
@@ -201,21 +203,21 @@ const InfoProvier: FC<any> = ({ children }) => {
   }, [chatContract]);
 
   return (
-    <InfoContext.Provider
+    <ChatroomContext.Provider
       value={{
-        defaultMessageReceiver,
         currentAccount,
+        getAccount,
+        defaultMessageReceiver,
         chats,
         setChats,
-        getAccount,
         sendMessage,
       }}
     >
       {children}
-    </InfoContext.Provider>
+    </ChatroomContext.Provider>
   );
 };
-export default InfoProvier;
+export default ChatroomProvier;
 
 // const a = '0123456789012345678901234567892';
 // const ahex = utils.formatBytes32String(a);

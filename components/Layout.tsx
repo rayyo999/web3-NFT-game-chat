@@ -1,24 +1,27 @@
 import { FC } from 'react';
-import InfoProvier from '../components/InfoContext';
+import InfoProvier from './ChatroomContext';
 import Navbar from '../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
+import NftProvider from './NftContext';
 
 const Layout: FC<any> = ({ router, children }) => {
   return (
     <div className=' text-black bg-gray-500 h-screen'>
       <InfoProvier>
-        <Navbar />
-        <AnimatePresence initial={false} exitBeforeEnter>
-          <motion.div
-            key={router.route}
-            variants={pagesAnimation}
-            initial='init'
-            animate='animate'
-            exit='exit'
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        <NftProvider>
+          <Navbar />
+          <AnimatePresence initial={false} exitBeforeEnter>
+            <motion.div
+              key={router.route}
+              variants={pagesAnimation}
+              initial='init'
+              animate='animate'
+              exit='exit'
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </NftProvider>
       </InfoProvier>
     </div>
   );
