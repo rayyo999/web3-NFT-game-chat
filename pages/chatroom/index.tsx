@@ -27,7 +27,7 @@ const ChatRoom: FC = () => {
     }
   };
   return (
-    <>
+    <div className='h-full bg-gray-500'>
       <div className='p-4 m-auto md:w-1/2'>
         <div className='w-full flex rounded-xl overflow-hidden'>
           <input
@@ -92,7 +92,7 @@ const ChatRoom: FC = () => {
         )}
       </div>
       <ChatMessages />
-    </>
+    </div>
   );
 };
 export default ChatRoom;

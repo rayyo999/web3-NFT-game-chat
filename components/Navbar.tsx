@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { motion } from 'framer-motion';
 import { useChatroomContext } from './ChatroomContext';
 
 const Navbar: FC = () => {
   const { currentAccount, getAccount }: any = useChatroomContext();
-  const nav = ['Home', 'ChatRoom', 'NFT', 'Control'];
+  const nav = ['Home', 'ChatRoom', 'NFT'];
   return (
-    <nav className=' bg-black text-white flex justify-end items-center gap-4'>
+    <nav className='flex-initial bg-black text-white flex justify-end items-center gap-4'>
       {nav.map((item, index) => {
         return (
           <Link href={`/${index !== 0 ? item.toLowerCase() : ''}`} key={index}>

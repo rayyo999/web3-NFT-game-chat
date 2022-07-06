@@ -15,21 +15,9 @@ import { Inft } from '../utils/types/Inft';
 declare var window: any;
 
 // Constants
-// const TWITTER_HANDLE = '_buildspace';
-// const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const nftContractAddress = '0xF2598A056E78b09c500F7EdC3Ee2E6e2D26d9c4a';
 const nftContractABI = nftContractInterface.abi;
 
-interface InftContext {
-  nftContract: Contract | undefined;
-  isLoading: boolean;
-  tokenIds: number[];
-  transfromNFTData: (characterData: IrawNft) => Inft;
-  getCharacterNFT: () => Promise<void>;
-  tokenIdToNFT: Map<number, Inft>;
-  setMap: (tokenId: number, NFT: Inft) => Promise<void>;
-}
-// const NftContext: InftContext | undefined = createContext(undefined);
 const NftContext: any = createContext(null);
 export const useNftContext = () => useContext(NftContext);
 

@@ -13,22 +13,16 @@ const Nft: FC = () => {
     if (isLoading) {
       return <LoadingIndicator />;
     }
-    if (currentAccount === null) {
+    if (!currentAccount) {
       return (
-        <div className='connect-wallet-container'>
+        <div className='flex flex-col items-center'>
           <img
             src='https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv'
             alt='Monty Python Gif'
           />
-          <button
-            className='cta-button connect-wallet-button'
-            onClick={getAccount}
-          >
-            Connect Wallet
-          </button>
+          <p className='pt-2'>Connect Wallet first, then be a Hero !!!!</p>
         </div>
       );
-      // } else if (currentAccount && characterNFT === null) {
     } else if (currentAccount && tokenIds.length === 0) {
       return <SelectNft />;
     } else if (currentAccount && tokenIds.length > 0) {
@@ -36,14 +30,11 @@ const Nft: FC = () => {
     }
   };
   return (
-    <div className=''>
-      <div className=''>
-        <div className=''>
-          <p className=''>⚔️ Metaverse Slayer ⚔️</p>
-          <p className=''>Team up to protect the Metaverse!</p>
-          <button>123asd456</button>
-          {renderContent()}
-        </div>
+    <div className='h-full bg-red-500 text-center pt-16'>
+      <div className='flex flex-col overflow-x-hidden'>
+        <p className='text-4xl'>⚔️ Metaverse Slayer ⚔️</p>
+        <p className='py-4'>Team up to protect the Metaverse!</p>
+        {renderContent()}
       </div>
     </div>
   );

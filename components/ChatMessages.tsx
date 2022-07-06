@@ -49,7 +49,7 @@ const ChatMessages: FC = () => {
               onClick={() => {
                 setShowType(type);
               }}
-              className='relative basis-1/3 text-center p-2 text-cyan-300 '
+              className='relative basis-1/3 text-center p-2 text-cyan-300 cursor-pointer'
             >
               {showType === type && (
                 <motion.div

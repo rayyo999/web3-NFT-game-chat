@@ -55,17 +55,21 @@ const SelectNft: FC = () => {
   const renderCharacter = () => {
     return characters.map((character, index) => {
       return (
-        <div className='character-item' key={character.name}>
-          <div className='name-container'>
+        <div
+          className='relative basis-1/3 rounded-lg overflow-hidden'
+          key={character.name}
+        >
+          <div className='absolute left-1 top-1 bg-slate-500 rounded-lg py-1 px-2 text-white'>
             <p>{character.name}</p>
           </div>
           <img
             src={character.imageURI}
             alt={character.name}
+            className='w-full aspect-square object-cover'
           />
           <button
             type='button'
-            className='character-mint-button'
+            className='w-full py-1 text-white bg-blue-600'
             onClick={() => mint(index)}
           >{`Mint ${character.name}`}</button>
         </div>
@@ -85,13 +89,13 @@ const SelectNft: FC = () => {
   }, [nftContract]);
 
   return (
-    <div className='select-character-container'>
+    <>
       <h2>Mint your Pen. Choose wisely.</h2>
       {characters.length > 0 && (
-        <div className='character-grid'>{renderCharacter()}</div>
+        <div className='flex gap-2 m-auto md:w-1/2'>{renderCharacter()}</div>
       )}
       {isMinting && (
-        <div className='loading'>
+        <div className='flex flex-col items-center'>
           <div className='indicator'>
             <LoadingIndicator />
             <p>Minting In Progress...</p>
@@ -102,7 +106,7 @@ const SelectNft: FC = () => {
           />
         </div>
       )}
-    </div>
+    </>
   );
 };
 

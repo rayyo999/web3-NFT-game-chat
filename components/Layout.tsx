@@ -6,12 +6,13 @@ import NftProvider from './NftContext';
 
 const Layout: FC<any> = ({ router, children }) => {
   return (
-    <div className=' text-black bg-gray-500 h-screen'>
+    <div className='text-black h-screen flex flex-col'>
       <InfoProvier>
         <NftProvider>
           <Navbar />
           <AnimatePresence initial={false} exitBeforeEnter>
             <motion.div
+              className='flex-1'
               key={router.route}
               variants={pagesAnimation}
               initial='init'
