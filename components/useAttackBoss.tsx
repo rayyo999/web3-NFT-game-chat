@@ -1,6 +1,4 @@
-import {
-  useContractWrite,
-} from 'wagmi';
+import { useContractWrite } from 'wagmi';
 import nftContractInterface from '../utils/contracts/nftContract.json';
 
 const nftContractAddress = '0x5AB0eA47065F07420Aed2271C798Ba2d4f1Cf8c0';

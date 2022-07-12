@@ -31,8 +31,8 @@ const InputChats: FC = () => {
   const [receiverIsValid, setReceiverIsValid] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   // const [inputChatState, dispatch] = useReducer(
-    // ChatReducer
-    // inputChatStateInit
+  // ChatReducer
+  // inputChatStateInit
   // );
 
   const { write } = useContractWrite({
@@ -51,7 +51,9 @@ const InputChats: FC = () => {
     }
     write();
   };
-
+  if (!isMounted) {
+    return <></>;
+  }
   return (
     <motion.div layout className='p-4 m-auto md:w-1/2'>
       <div className='w-full flex rounded-xl overflow-hidden'>
@@ -64,20 +66,18 @@ const InputChats: FC = () => {
             setMessage(e.target.value);
           }}
         />
-        {isMounted && (
-          <button
-            className={
-              isPrivate
-                ? receiverIsValid
-                  ? 'w-20 p-2 bg-green-400'
-                  : 'w-20 p-2 bg-rose-300'
-                : 'flex-none w-20 p-2 bg-green-100'
-            }
-            onClick={send}
-          >
-            send
-          </button>
-        )}
+        <button
+          className={
+            isPrivate
+              ? receiverIsValid
+                ? 'w-20 p-2 bg-green-400'
+                : 'w-20 p-2 bg-rose-300'
+              : 'flex-none w-20 p-2 bg-green-100'
+          }
+          onClick={send}
+        >
+          send
+        </button>
       </div>
       {!isPrivate && (
         <button

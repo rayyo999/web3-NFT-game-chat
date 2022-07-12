@@ -3,23 +3,21 @@ import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 const Navbar: FC = () => {
-  console.log('Navbar rendering');
-
   const navContent = useMemo(() => ['Home', 'ChatRoom', 'NFT'], []);
   return (
-      <nav className='flex-initial bg-black text-white flex justify-end items-center gap-4'>
-        {navContent.map((item, index) => {
-          return (
-            <Link
-              href={`/${index !== 0 ? item.toLowerCase() : ''}`}
-              key={index}
-            >
-              <motion.button whileHover={{ scale: 1.1 }}>{item}</motion.button>
-            </Link>
-          );
-        })}
-        <ConnectButton />
-      </nav>
+    <nav className='flex-initial bg-black text-white flex flex-wrap justify-center items-center gap-4 pr-1 py-1 sm:justify-end'>
+      {navContent.map((item, index) => {
+        return (
+          <Link href={`/${index !== 0 ? item.toLowerCase() : ''}`} key={index}>
+            <motion.button whileHover={{ scale: 1.1 }}>{item}</motion.button>
+          </Link>
+        );
+      })}
+      <ConnectButton
+        accountStatus={{ smallScreen: 'avatar', largeScreen: 'full' }}
+        showBalance={{ smallScreen: false, largeScreen: true }}
+      />
+    </nav>
   );
 };
 
@@ -42,13 +40,6 @@ const btnRotate = {
   init: { rotateZ: 0, originX: 0.5, originY: 0.5, y: -50, x: -60 },
   show: { rotateZ: 360, transition: { duration: 10, repeat: Infinity } },
 };
-
-// <nav>
-//   <Link href='/'>Home</Link>
-//   <Link href='/chat'>Chat</Link>
-//   <Link href='/nft'>NFT</Link>
-//   <Link href='/nftgame'>NFT_Game</Link>
-// </nav>
 
 //  <nav className=' bg-black text-white flex justify-end items-center gap-4'>
 // <Link href='/'>

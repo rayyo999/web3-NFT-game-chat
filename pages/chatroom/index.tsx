@@ -3,7 +3,6 @@ import DisplayChats from '../../components/ChatRoom/DisplayChats';
 import InputChats from '../../components/ChatRoom/InputChats';
 
 const ChatRoom: FC = () => {
-  console.log('Chatroom rendering');
   return (
     <div className='h-full bg-gray-500'>
       <InputChats />

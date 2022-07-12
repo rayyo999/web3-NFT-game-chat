@@ -3,12 +3,12 @@ import Navbar from '../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
 // import AccountProvider from './AccountContext';
 import WalletProvider from './WalletProvider';
+import CheckNetWork from './CheckNetWork';
 
 const Layout: FC<any> = ({ router, children }) => {
-  console.log('Layout rendering');
-
   return (
-      <WalletProvider>
+    <WalletProvider>
+      <CheckNetWork>
         <div className='text-black h-screen flex flex-col'>
           <Navbar />
           <AnimatePresence initial={false} exitBeforeEnter>
@@ -25,7 +25,8 @@ const Layout: FC<any> = ({ router, children }) => {
             </motion.div>
           </AnimatePresence>
         </div>
-      </WalletProvider>
+      </CheckNetWork>
+    </WalletProvider>
   );
 };
 export default Layout;

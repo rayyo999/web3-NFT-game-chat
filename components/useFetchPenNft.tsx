@@ -12,7 +12,6 @@ const nftContractObj = {
 
 const useFetchPenNft = () => {
   const { address: currentAccount } = useAccount();
-
   const { data: tokenIds, isLoading: isLoadingTokenIds } = useContractRead({
     ...nftContractObj,
     functionName: 'getTokenIds',
