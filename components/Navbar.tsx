@@ -1,40 +1,25 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useChatroomContext } from './ChatroomContext';
-
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 const Navbar: FC = () => {
-  const { currentAccount, getAccount }: any = useChatroomContext();
-  const nav = ['Home', 'ChatRoom', 'NFT'];
+  console.log('Navbar rendering');
+
+  const navContent = useMemo(() => ['Home', 'ChatRoom', 'NFT'], []);
   return (
-    <nav className='flex-initial bg-black text-white flex justify-end items-center gap-4'>
-      {nav.map((item, index) => {
-        return (
-          <Link href={`/${index !== 0 ? item.toLowerCase() : ''}`} key={index}>
-            <motion.button whileHover={{ scale: 1.1 }}>{item}</motion.button>
-          </Link>
-        );
-      })}
-      <motion.button
-        className=' relative px-5 py-3 rounded-xl cursor-pointer overflow-hidden'
-        variants={btnMotion}
-        initial='init'
-        whileHover='hover'
-        onClick={getAccount}
-      >
-        <motion.div
-          className='absolute w-64  h-64  bg-gradient-to-r from-slate-700 via-lime-700 to-orange-500'
-          variants={btnRotate}
-          initial='init'
-          animate='show'
-        ></motion.div>
-        <motion.div className=' text-white' style={{ z: 1 }}>
-          {currentAccount
-            ? currentAccount.slice(0, 4) + ' . . . ' + currentAccount.slice(-4)
-            : 'connect wallet'}
-        </motion.div>
-      </motion.button>
-    </nav>
+      <nav className='flex-initial bg-black text-white flex justify-end items-center gap-4'>
+        {navContent.map((item, index) => {
+          return (
+            <Link
+              href={`/${index !== 0 ? item.toLowerCase() : ''}`}
+              key={index}
+            >
+              <motion.button whileHover={{ scale: 1.1 }}>{item}</motion.button>
+            </Link>
+          );
+        })}
+        <ConnectButton />
+      </nav>
   );
 };
 
@@ -95,3 +80,25 @@ const btnRotate = {
 // </motion.div>
 // </motion.button>
 // </nav>;
+
+{
+  /* <motion.button
+        className=' relative px-5 py-3 rounded-xl cursor-pointer overflow-hidden'
+        variants={btnMotion}
+        initial='init'
+        whileHover='hover'
+        onClick={getAccount}
+      >
+        <motion.div
+          className='absolute w-64  h-64  bg-gradient-to-r from-slate-700 via-lime-700 to-orange-500'
+          variants={btnRotate}
+          initial='init'
+          animate='show'
+        ></motion.div>
+        <motion.div className=' text-white' style={{ z: 1 }}>
+          {currentAccount
+            ? currentAccount.slice(0, 4) + ' . . . ' + currentAccount.slice(-4)
+            : 'connect wallet'}
+        </motion.div>
+      </motion.button> */
+}

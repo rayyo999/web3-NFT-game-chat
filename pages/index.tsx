@@ -1,7 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useAccount } from 'wagmi';
+import { useIsMounted } from '../components/useIsMounted';
 
 const Home: NextPage = () => {
+  console.log('Home rendering');
+  const isMounted = useIsMounted();
+  const { address } = useAccount();
   return (
     <div className='h-full bg-teal-700 text-white text-center'>
       <Head>
@@ -12,10 +17,15 @@ const Home: NextPage = () => {
         Welcome to Rayven World
       </h2>
       <p className='py-4'>Here you can chat with your teammates</p>
-      <p>
-        and mint a NFT role together to kill the enemy to show your Team
-        Spirit!!!! Have fun~
-      </p>
+      {isMounted && (
+        <>
+          <p>
+            and mint a NFT role together to kill the enemy to show your Team
+            Spirit!!!! Have fun~
+          </p>
+          <div>{address}</div>
+        </>
+      )}
     </div>
   );
 };

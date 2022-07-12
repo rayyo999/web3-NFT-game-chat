@@ -1,19 +1,21 @@
 import { FC } from 'react';
-import InfoProvier from './ChatroomContext';
 import Navbar from '../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
-import NftProvider from './NftContext';
+// import AccountProvider from './AccountContext';
+import WalletProvider from './WalletProvider';
 
 const Layout: FC<any> = ({ router, children }) => {
+  console.log('Layout rendering');
+
   return (
-    <div className='text-black h-screen flex flex-col'>
-      <InfoProvier>
-        <NftProvider>
+      <WalletProvider>
+        <div className='text-black h-screen flex flex-col'>
           <Navbar />
           <AnimatePresence initial={false} exitBeforeEnter>
             <motion.div
               className='flex-1'
-              key={router.route}
+              key={router.pathname}
+              // key={router.route}
               variants={pagesAnimation}
               initial='init'
               animate='animate'
@@ -22,9 +24,8 @@ const Layout: FC<any> = ({ router, children }) => {
               {children}
             </motion.div>
           </AnimatePresence>
-        </NftProvider>
-      </InfoProvier>
-    </div>
+        </div>
+      </WalletProvider>
   );
 };
 export default Layout;

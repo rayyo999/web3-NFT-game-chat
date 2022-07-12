@@ -1,11 +1,12 @@
 import { useState, useEffect, FC } from 'react';
-import { useNftContext } from './NftContext';
-import { IrawNft } from '../utils/types/IrawNft';
-import Image from 'next/image';
-import LoadingIndicator from './LoadingIndicator';
 import { BigNumber } from 'ethers';
+import { useNftContext } from '../../pages/nft';
+import { IrawNft } from '../../utils/types/IrawNft';
+import LoadingIndicator from '../LoadingIndicator';
 
 const SelectNft: FC = () => {
+  console.log('selectNFT rendering');
+
   const { nftContract, transfromNFTData, getCharacterNFT }: any =
     useNftContext();
   const [characters, setcharacters] = useState<IrawNft[]>([]);
@@ -89,7 +90,7 @@ const SelectNft: FC = () => {
   }, [nftContract]);
 
   return (
-    <>
+    <div>
       <h2>Mint your Pen. Choose wisely.</h2>
       {characters.length > 0 && (
         <div className='flex gap-2 m-auto md:w-1/2'>{renderCharacter()}</div>
@@ -106,7 +107,7 @@ const SelectNft: FC = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,9 +1,8 @@
-import { BigNumber, utils } from 'ethers';
-import Image from 'next/image';
+import { BigNumber } from 'ethers';
 import { FC, useEffect, useState } from 'react';
-import { Inft } from '../utils/types/Inft';
-import LoadingIndicator from './LoadingIndicator';
-import { useNftContext } from './NftContext';
+import { useNftContext } from '../../pages/nft';
+import { Inft } from '../../utils/types/Inft';
+import LoadingIndicator from '../LoadingIndicator';
 
 enum AttackState {
   Attacking,
@@ -12,7 +11,9 @@ enum AttackState {
 }
 
 const BattleNft: FC = () => {
-  const { nftContract, transfromNFTData, tokenIds, tokenIdToNFT, setMap }: any =
+  console.log('BattleNFT rendering');
+
+  const { nftContract, transfromNFTData, tokenIds, tokenIdToNFT, setTokenIdToNftMap }: any =
     useNftContext();
   const [Boss, setBoss] = useState<Inft | undefined>();
   const [attackState, setAttackState] = useState(AttackState.Idle);
@@ -64,7 +65,7 @@ const BattleNft: FC = () => {
     });
     getBoss(); //
     const old = tokenIdToNFT.get(tokenId.toNumber());
-    await setMap(tokenId.toNumber(), { ...old, hp: newPlayerHp.toString() });
+    await setTokenIdToNftMap(tokenId.toNumber(), { ...old, hp: newPlayerHp.toString() });
   };
 
   const renderBoss = () => {
