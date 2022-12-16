@@ -1,19 +1,24 @@
-import '@rainbow-me/rainbowkit/styles.css';
+import { Chain, connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
 import {
-  Chain,
-  connectorsForWallets,
-  getDefaultWallets,
-  getWalletConnectConnector,
-  RainbowKitProvider,
-  Wallet,
-  wallet,
-} from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
-import { FC } from 'react';
-
+  argentWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  injectedWallet,
+  coinbaseWallet,
+  ledgerWallet,
+  braveWallet,
+  imTokenWallet,
+  trustWallet,
+} from '@rainbow-me/rainbowkit/wallets'
+import { FC } from 'react'
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
+import { mainnet, localhost, goerli, optimism, arbitrum } from 'wagmi/chains'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 //custom chain
 const avalancheChain: Chain = {
   id: 43_114,
@@ -27,24 +32,38 @@ const avalancheChain: Chain = {
     symbol: 'AVAX',
   },
   rpcUrls: {
-    default: 'https://api.avax.network/ext/bc/C/rpc',
+    default: {
+      http: ['https://api.avax.network/ext/bc/C/rpc'],
+    },
   },
   blockExplorers: {
     default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
     etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
   },
   testnet: false,
-};
+}
 
+const NEXT_PUBLIC_ALCHEMY_ID = process.env.NEXT_PUBLIC_ALCHEMY_ID || ''
+const NEXT_PUBLIC_INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID || ''
 const { chains, provider } = configureChains(
-  [chain.rinkeby, chain.mainnet, avalancheChain, chain.localhost],
-  // [chain.mainnet, chain.rinkeby, chain.polygon, chain.optimism, chain.arbitrum],
+  // [goerli, mainnet, avalancheChain, localhost, optimism, arbitrum],
+  [goerli, mainnet, localhost, optimism, arbitrum],
   [
-    alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
+    alchemyProvider({
+      apiKey: NEXT_PUBLIC_ALCHEMY_ID,
+      // priority: 0,
+    }),
+    infuraProvider({
+      apiKey: NEXT_PUBLIC_INFURA_ID,
+      // priority: 0,
+    }),
     publicProvider(),
-    // jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default }) }),
+    // publicProvider({ priority: 1 }),
+    // jsonRpcProvider({
+    //   rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+    // }),
   ]
-);
+)
 
 // const { connectors } = getDefaultWallets({
 //   appName: 'My RainbowKit App',
@@ -53,31 +72,27 @@ const { chains, provider } = configureChains(
 const connectors = connectorsForWallets([
   {
     groupName: 'Recommended',
-    wallets: [
-      wallet.metaMask({ chains }),
-      wallet.rainbow({ chains }),
-      wallet.argent({ chains }),
-    ],
+    wallets: [metaMaskWallet({ chains }), rainbowWallet({ chains }), argentWallet({ chains })],
   },
   {
     groupName: 'Others',
     wallets: [
-      wallet.walletConnect({ chains }),
-      wallet.trust({ chains }),
-      wallet.imToken({ chains }),
-      wallet.brave({ chains }),
-      wallet.ledger({ chains }),
-      wallet.coinbase({ appName: 'C', chains }),
-      wallet.injected({ chains }),
+      walletConnectWallet({ chains }),
+      trustWallet({ chains }),
+      imTokenWallet({ chains }),
+      braveWallet({ chains }),
+      ledgerWallet({ chains }),
+      coinbaseWallet({ chains, appName: 'C' }),
+      injectedWallet({ chains }),
     ],
   },
-]);
+])
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-});
+})
 
 const WalletProvider: FC<any> = ({ children }) => {
   return (
@@ -86,6 +101,6 @@ const WalletProvider: FC<any> = ({ children }) => {
         {children}
       </RainbowKitProvider>
     </WagmiConfig>
-  );
-};
-export default WalletProvider;
+  )
+}
+export default WalletProvider

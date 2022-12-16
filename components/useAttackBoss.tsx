@@ -1,19 +1,18 @@
-import { useContractWrite } from 'wagmi';
-import nftContractInterface from '../utils/contracts/nftContract.json';
-
-const nftContractAddress = '0x5AB0eA47065F07420Aed2271C798Ba2d4f1Cf8c0';
-const nftContractABI = nftContractInterface.abi;
-const nftContractObj = {
-  addressOrName: nftContractAddress,
-  contractInterface: nftContractABI,
-};
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { nftContractObj } from '../utils/contracts/nftContract'
+import nftContractInterface from '../utils/contracts/nftContract.json'
 
 const useAttackBoss = () => {
-  const result = useContractWrite({
+  // const {config} = usePrepareContractWrite({
+  //   ...nftContractObj,
+  //   functionName: 'attack',
+  // });
+  // return useContractWrite(config)
+  return useContractWrite({
     ...nftContractObj,
+    mode: 'recklesslyUnprepared',
     functionName: 'attack',
-  });
-  return result;
-};
+  })
+}
 
-export default useAttackBoss;
+export default useAttackBoss

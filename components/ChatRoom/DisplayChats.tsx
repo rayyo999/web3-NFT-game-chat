@@ -1,15 +1,13 @@
-import { FC, useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Ichat } from '../../utils/types/Ichat';
+import { motion } from 'framer-motion'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { Ichat } from '../../utils/types/Ichat'
 // import { useAccountContext } from '../AccountContext';
-import { useAccount, useContractRead } from 'wagmi';
-import { Result } from 'ethers/lib/utils';
-import { chatContractABI, chatContractAddress } from './InputChats';
-import { useIsMounted } from '../useIsMounted';
+import { Result } from 'ethers/lib/utils'
+import { useAccount, useContractRead } from 'wagmi'
+import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
+import { useIsMounted } from '../useIsMounted'
 
-const defaultMessageReceiver =
-  '0x8b4E564967E54a8f7a6A493D5EDE1759e78DfD53'.toLowerCase();
-const transformMessage = (chats: Result | undefined) => {
+const transformMessageAndReverse = (chats: Result | undefined) => {
   return chats
     ?.map((chat) => {
       return {
@@ -19,55 +17,52 @@ const transformMessage = (chats: Result | undefined) => {
         message: chat.message,
         time: chat.time,
         isAddressShort: true,
-      };
+      }
     })
-    .reverse();
-};
+    .reverse()
+}
 
 enum showTypes {
   PUBLIC = 'Public',
   ALL = 'All',
   PRIVATE = 'Private',
 }
-const showTypeList = Object.entries(showTypes).map(([, value]) => value);
+const showTypeList = Object.entries(showTypes).map(([, value]) => value)
 
 const DisplayChats: FC = () => {
-  const isMounted = useIsMounted();
-  const { address } = useAccount();
-  const currentAccount = useMemo(() => address?.toLowerCase(), [address]);
-  const { data } = useContractRead({
-    addressOrName: chatContractAddress,
-    contractInterface: chatContractABI,
+  const isMounted = useIsMounted()
+  const { address } = useAccount()
+  const currentAccount = useMemo(() => address?.toLowerCase(), [address])
+  const { data }: { data: Result | undefined } = useContractRead({
+   ...chatContractObj,
     functionName: 'getAllChats',
     watch: true,
-  });
-  const chats = useMemo(() => transformMessage(data), [data]);
-  const [showType, setShowType] = useState(showTypes.PRIVATE);
-  const [showChats, setShowChats] = useState(chats);
+  })
+  const chats = useMemo(() => transformMessageAndReverse(data), [data])
+  const [showType, setShowType] = useState(showTypes.PRIVATE)
+  const [showChats, setShowChats] = useState(chats)
   const handleShortenAddress = (id: number) => {
     setShowChats((prev) =>
       prev?.map((chat) => {
-        return chat.index === id
-          ? { ...chat, isAddressShort: !chat.isAddressShort }
-          : { ...chat };
+        return chat.index === id ? { ...chat, isAddressShort: !chat.isAddressShort } : { ...chat }
       })
-    );
-  };
+    )
+  }
   const toggleShowTypes = (type: string) => {
     switch (type) {
       case showTypes.ALL:
-        setShowType(showTypes.ALL);
-        break;
+        setShowType(showTypes.ALL)
+        break
       case showTypes.PUBLIC:
-        setShowType(showTypes.PUBLIC);
-        break;
+        setShowType(showTypes.PUBLIC)
+        break
       case showTypes.PRIVATE:
-        setShowType(showTypes.PRIVATE);
-        break;
+        setShowType(showTypes.PRIVATE)
+        break
       default:
-        throw new Error(`no such toggle type: ${type}`);
+        throw new Error(`no such toggle type: ${type}`)
     }
-  };
+  }
 
   // useContractEvent({
   //   addressOrName: chatContractAddress,
@@ -77,24 +72,23 @@ const DisplayChats: FC = () => {
   //   // once: true,
   // });
   useEffect(() => {
-    let filteredChats = chats;
+    let filteredChats = chats
     if (showType === showTypes.PRIVATE) {
       filteredChats = chats?.filter(
         (chat: Ichat) =>
           chat.to.toLowerCase() !== defaultMessageReceiver &&
-          (chat.to.toLowerCase() === currentAccount ||
-            chat.from.toLowerCase() === currentAccount)
-      );
+          (chat.to.toLowerCase() === currentAccount || chat.from.toLowerCase() === currentAccount)
+      )
     } else if (showType === showTypes.PUBLIC) {
       filteredChats = chats?.filter(
         (chat: Ichat) => chat.to.toLowerCase() === defaultMessageReceiver
-      );
+      )
     }
-    setShowChats(filteredChats);
-  }, [showType, chats]);
+    setShowChats(filteredChats)
+  }, [showType, chats])
 
   if (!isMounted) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -107,7 +101,7 @@ const DisplayChats: FC = () => {
               // key={uuidv4()}
               // key={nanoid()}
               onClick={() => {
-                toggleShowTypes(value);
+                toggleShowTypes(value)
               }}
               className='relative basis-1/3 text-center p-2 text-cyan-300 cursor-pointer'
             >
@@ -119,25 +113,18 @@ const DisplayChats: FC = () => {
               )}
               <div className='relative'>{value}</div>
             </div>
-          );
+          )
         })}
       </motion.div>
       <motion.div layout>
         {showChats?.map((chat: Ichat, index: number, array: Ichat[]) => {
-          let hide = true;
-          let longAddress: JSX.Element | null = null;
-          let shortAddress: JSX.Element | null = null;
-          if (
-            index === 0 ||
-            (index > 0 && chat.from !== array[index - 1].from)
-          ) {
-            hide = false;
-            longAddress = <div>{chat.from}</div>;
-            shortAddress = (
-              <div>
-                {chat.from.slice(0, 4) + ' . . . ' + chat.from.slice(-4)}
-              </div>
-            );
+          let hide = true
+          let longAddress: JSX.Element | null = null
+          let shortAddress: JSX.Element | null = null
+          if (index === 0 || (index > 0 && chat.from !== array[index - 1].from)) {
+            hide = false
+            longAddress = <div>{chat.from}</div>
+            shortAddress = <div>{chat.from.slice(0, 4) + ' . . . ' + chat.from.slice(-4)}</div>
           }
           const showAddress = (
             <div className='flex items-center'>
@@ -148,7 +135,7 @@ const DisplayChats: FC = () => {
                 fill='currentColor'
                 viewBox='0 0 16 16'
                 onClick={() => {
-                  handleShortenAddress(chat.index);
+                  handleShortenAddress(chat.index)
                 }}
                 whileHover={{ scaleX: 1.5, originX: 0 }}
               >
@@ -158,11 +145,11 @@ const DisplayChats: FC = () => {
                 {chat.isAddressShort ? shortAddress : longAddress}
               </motion.div>
             </div>
-          );
+          )
           const blockStyle =
             chat.from.toLowerCase() === currentAccount?.toLowerCase()
               ? 'relative p-4 m-2 bg-cyan-700 text-stone-900 rounded-xl'
-              : 'relative p-4 m-2 bg-cyan-900 text-cyan-400 rounded-xl';
+              : 'relative p-4 m-2 bg-cyan-900 text-cyan-400 rounded-xl'
           return (
             <div key={index} className={blockStyle}>
               {!hide && showAddress}
@@ -173,11 +160,11 @@ const DisplayChats: FC = () => {
                 })}
               </div>
             </div>
-          );
+          )
         })}
       </motion.div>
     </div>
-  );
-};
+  )
+}
 
-export default DisplayChats;
+export default DisplayChats
