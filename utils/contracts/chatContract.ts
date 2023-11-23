@@ -309,7 +309,7 @@ const chatContractABI = [
     type: 'receive',
   },
 ] as const
-export const chatContractAddress = '0xc50dbd2225c33F74248f719064299Fe7E6fecc54'
+export const chatContractAddress = '0x17AF179Aa501fBda8ca81df600677E1CBd66A084'
 export const defaultMessageReceiver = chatContractAddress.toLowerCase() as `0x${string}`
 export const chatContractObj = {
   address: chatContractAddress,

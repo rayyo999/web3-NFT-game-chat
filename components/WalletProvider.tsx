@@ -14,7 +14,7 @@ import {
 } from '@rainbow-me/rainbowkit/wallets'
 import { FC } from 'react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, localhost, goerli, optimism, arbitrum } from 'wagmi/chains'
+import { mainnet, localhost, sepolia, optimism, arbitrum } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -46,8 +46,8 @@ const avalancheChain: Chain = {
 const NEXT_PUBLIC_ALCHEMY_ID = process.env.NEXT_PUBLIC_ALCHEMY_ID || ''
 const NEXT_PUBLIC_INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID || ''
 const { chains, provider } = configureChains(
-  // [goerli, mainnet, avalancheChain, localhost, optimism, arbitrum],
-  [goerli, mainnet, localhost, optimism, arbitrum],
+  // [sepolia, mainnet, avalancheChain, localhost, optimism, arbitrum],
+  [sepolia, mainnet, localhost, optimism, arbitrum],
   [
     alchemyProvider({
       apiKey: NEXT_PUBLIC_ALCHEMY_ID,

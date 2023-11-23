@@ -9,13 +9,13 @@ const CheckNetWork: FC<any> = ({ children }) => {
   if (!isMounted) {
     return <></>;
   }
-  if (chain?.id !== 5) {
+  if (chain?.id !== 11155111) {
     return (
       <div className='flex flex-col h-screen items-center justify-center'>
-        <p className='p-4'>please connect to goerli testnet!!!</p>
+        <p className='p-4'>please connect to sepolia testnet!!!</p>
         <ConnectButton />
       </div>
-    );
+    )
   }
   return <>{children}</>;
 };
