@@ -1,6 +1,6 @@
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useContractWrite } from 'wagmi'
 import { nftContractObj } from '../utils/contracts/nftContract'
-import nftContractInterface from '../utils/contracts/nftContract.json'
+// import nftContractInterface from '../utils/contracts/nftContract.json'
 
 const useAttackBoss = () => {
   // const {config} = usePrepareContractWrite({

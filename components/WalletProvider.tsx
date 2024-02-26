@@ -1,47 +1,46 @@
-import { Chain, connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import {
   argentWallet,
+  braveWallet,
+  coinbaseWallet,
+  imTokenWallet,
+  injectedWallet,
+  ledgerWallet,
   metaMaskWallet,
   rainbowWallet,
-  walletConnectWallet,
-  injectedWallet,
-  coinbaseWallet,
-  ledgerWallet,
-  braveWallet,
-  imTokenWallet,
   trustWallet,
+  walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets'
 import { FC } from 'react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, localhost, sepolia, optimism, arbitrum } from 'wagmi/chains'
+import { arbitrum, localhost, mainnet, optimism, sepolia } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 //custom chain
-const avalancheChain: Chain = {
-  id: 43_114,
-  name: 'Avalanche',
-  network: 'avalanche',
-  iconUrl: 'https://example.com/icon.svg',
-  iconBackground: '#fff',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'Avalanche',
-    symbol: 'AVAX',
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://api.avax.network/ext/bc/C/rpc'],
-    },
-  },
-  blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-    etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-  },
-  testnet: false,
-}
+// const avalancheChain: Chain = {
+//   id: 43_114,
+//   name: 'Avalanche',
+//   network: 'avalanche',
+//   iconUrl: 'https://example.com/icon.svg',
+//   iconBackground: '#fff',
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: 'Avalanche',
+//     symbol: 'AVAX',
+//   },
+//   rpcUrls: {
+//     default: {
+//       http: ['https://api.avax.network/ext/bc/C/rpc'],
+//     },
+//   },
+//   blockExplorers: {
+//     default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+//     etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+//   },
+//   testnet: false,
+// }
 
 const NEXT_PUBLIC_ALCHEMY_ID = process.env.NEXT_PUBLIC_ALCHEMY_ID || ''
 const NEXT_PUBLIC_INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID || ''

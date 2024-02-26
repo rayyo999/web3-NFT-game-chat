@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { FC, useState } from 'react'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
-import Loader from '../Loader'
+// import Loader from '../Loader'
 import { useIsMounted } from '../useIsMounted'
 
 // const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'.toLowerCase();

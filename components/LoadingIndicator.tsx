@@ -1,8 +1,6 @@
-import { FC } from 'react';
-import style from '../styles/LoadingIndicator.module.css';
+import { FC } from 'react'
+import style from '../styles/LoadingIndicator.module.css'
 const LoadingIndicator: FC = () => {
-  console.log('LoadidngIndicator rendering');
-
   return (
     <div className={style.loader}>
       <div></div>
@@ -10,7 +8,7 @@ const LoadingIndicator: FC = () => {
       <div></div>
       <div></div>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingIndicator;
+export default LoadingIndicator
