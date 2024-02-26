@@ -11,7 +11,7 @@ const Layout: FC<any> = ({ router, children }) => {
       <CheckNetWork>
         <div className='text-black h-screen flex flex-col'>
           <Navbar />
-          <AnimatePresence initial={false} exitBeforeEnter>
+          <AnimatePresence initial={false} mode='wait'>
             <motion.div
               className='flex-1'
               key={router.pathname}
