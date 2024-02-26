@@ -17,14 +17,12 @@
     "next": "^14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "uuid": "^8.3.2",
     "wagmi": "^0.9.2"
   },
   "devDependencies": {
     "@types/node": "20.11.20",
     "@types/react": "18.2.58",
     "@types/react-dom": "18.2.19",
-    "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.17",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.0",

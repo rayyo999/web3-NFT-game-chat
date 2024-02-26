@@ -34,7 +34,7 @@ const DisplayChats: FC = () => {
   const { address } = useAccount()
   const currentAccount = useMemo(() => address?.toLowerCase(), [address])
   const { data }: { data: Result | undefined } = useContractRead({
-   ...chatContractObj,
+    ...chatContractObj,
     functionName: 'getAllChats',
     watch: true,
   })
@@ -98,7 +98,6 @@ const DisplayChats: FC = () => {
           return (
             <div
               key={index}
-              // key={uuidv4()}
               // key={nanoid()}
               onClick={() => {
                 toggleShowTypes(value)
