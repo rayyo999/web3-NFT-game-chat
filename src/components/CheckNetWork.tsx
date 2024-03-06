@@ -2,7 +2,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FC } from 'react'
 import { useChainId } from 'wagmi'
 
-import { useIsMounted } from '~/components/useIsMounted'
+import { useIsMounted } from '~/hooks/useIsMounted'
 
 const CheckNetWork: FC<any> = ({ children }) => {
   const isMounted = useIsMounted()

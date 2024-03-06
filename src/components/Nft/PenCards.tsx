@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { FC } from 'react'
 
 import PenCard from '~/components/Nft/PenCard'
-import useFetchPenNftIds from '~/components/useFetchPenNftIds'
+import useFetchPenNftIds from '~/hooks/useFetchPenNftIds'
 
 interface Props {
   isBattle: boolean

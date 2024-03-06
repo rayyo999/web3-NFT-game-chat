@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { UseReadContractReturnType, useAccount, useReadContract } from 'wagmi'
 
-import { useIsMounted } from '~/components/useIsMounted'
+import { useIsMounted } from '~/hooks/useIsMounted'
 import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 const transformMessageAndReverse = (

@@ -2,8 +2,8 @@ import { FC } from 'react'
 
 import BossCard from '~/components/Nft/BossCard'
 import PenCards from '~/components/Nft/PenCards'
-import useFetchPenNftIds from '~/components/useFetchPenNftIds'
-import { useIsMounted } from '~/components/useIsMounted'
+import useFetchPenNftIds from '~/hooks/useFetchPenNftIds'
+import { useIsMounted } from '~/hooks/useIsMounted'
 
 const Battle: FC = () => {
   const isMounted = useIsMounted()

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { FC } from 'react'
 
-import useFetchBossNft from '~/components/useFetchBossNft'
+import useFetchBossNft from '~/hooks/useFetchBossNft'
 
 const BossCard: FC = () => {
   const bossNft = useFetchBossNft()

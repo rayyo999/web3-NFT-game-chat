@@ -4,7 +4,7 @@ import { useWriteContract } from 'wagmi'
 // import Loader from '../Loader'
 import { Address, isAddress } from 'viem'
 
-import { useIsMounted } from '~/components/useIsMounted'
+import { useIsMounted } from '~/hooks/useIsMounted'
 import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 // const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'.toLowerCase();

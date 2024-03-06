@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { FC } from 'react'
 
 import PenCards from '~/components/Nft/PenCards'
-import useFetchPenNftIds from '~/components/useFetchPenNftIds'
-import { useIsMounted } from '~/components/useIsMounted'
+import useFetchPenNftIds from '~/hooks/useFetchPenNftIds'
+import { useIsMounted } from '~/hooks/useIsMounted'
 
 const NftProvider: FC = () => {
   const isMounted = useIsMounted()
