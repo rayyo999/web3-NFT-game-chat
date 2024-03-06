@@ -1,4 +1,4 @@
-import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import {
   argentWallet,
@@ -12,12 +12,15 @@ import {
   trustWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FC } from 'react'
-import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { arbitrum, localhost, mainnet, optimism, sepolia } from 'wagmi/chains'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { infuraProvider } from 'wagmi/providers/infura'
-import { publicProvider } from 'wagmi/providers/public'
+import { WagmiProvider, createConfig, fallback, http } from 'wagmi'
+import { localhost, mainnet, sepolia } from 'wagmi/chains'
+
+const NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
+const NEXT_PUBLIC_ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || ''
+const NEXT_PUBLIC_INFURA_API_KEY = process.env.NEXT_PUBLIC_INFURA_API_KEY || ''
+
 //custom chain
 // const avalancheChain: Chain = {
 //   id: 43_114,
@@ -42,64 +45,55 @@ import { publicProvider } from 'wagmi/providers/public'
 //   testnet: false,
 // }
 
-const NEXT_PUBLIC_ALCHEMY_ID = process.env.NEXT_PUBLIC_ALCHEMY_ID || ''
-const NEXT_PUBLIC_INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID || ''
-const { chains, provider } = configureChains(
-  // [sepolia, mainnet, avalancheChain, localhost, optimism, arbitrum],
-  [sepolia, mainnet, localhost, optimism, arbitrum],
+const connectors = connectorsForWallets(
   [
-    alchemyProvider({
-      apiKey: NEXT_PUBLIC_ALCHEMY_ID,
-      // priority: 0,
-    }),
-    infuraProvider({
-      apiKey: NEXT_PUBLIC_INFURA_ID,
-      // priority: 0,
-    }),
-    publicProvider(),
-    // publicProvider({ priority: 1 }),
-    // jsonRpcProvider({
-    //   rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
-    // }),
-  ]
+    {
+      groupName: 'Recommended',
+      wallets: [metaMaskWallet, rainbowWallet, argentWallet],
+    },
+    {
+      groupName: 'Others',
+      wallets: [
+        walletConnectWallet,
+        trustWallet,
+        imTokenWallet,
+        braveWallet,
+        ledgerWallet,
+        coinbaseWallet,
+        injectedWallet,
+      ],
+    },
+  ],
+  {
+    appName: 'NFT-Game-Chat-App',
+    projectId: NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+  }
 )
 
-// const { connectors } = getDefaultWallets({
-//   appName: 'My RainbowKit App',
-//   chains,
-// });
-const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [metaMaskWallet({ chains }), rainbowWallet({ chains }), argentWallet({ chains })],
-  },
-  {
-    groupName: 'Others',
-    wallets: [
-      walletConnectWallet({ chains }),
-      trustWallet({ chains }),
-      imTokenWallet({ chains }),
-      braveWallet({ chains }),
-      ledgerWallet({ chains }),
-      coinbaseWallet({ chains, appName: 'C' }),
-      injectedWallet({ chains }),
-    ],
-  },
-])
+const ALCHEMY_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
+const INFURA_SEPOLIA_RPC_URL = `https://sepolia.infura.io/v3/${NEXT_PUBLIC_INFURA_API_KEY}`
+const ALCHEMY_SEPOLIA_TRANSPORT = http(ALCHEMY_SEPOLIA_RPC_URL)
+const INFURA_SEPOLIA_TRANSPORT = http(INFURA_SEPOLIA_RPC_URL)
 
-const wagmiClient = createClient({
-  autoConnect: true,
+const config = createConfig({
   connectors,
-  provider,
+  chains: [mainnet, sepolia, localhost],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: fallback([ALCHEMY_SEPOLIA_TRANSPORT, INFURA_SEPOLIA_TRANSPORT]),
+    [localhost.id]: http(),
+  },
 })
+
+const queryClient = new QueryClient()
 
 const WalletProvider: FC<any> = ({ children }) => {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} showRecentTransactions>
-        {children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider showRecentTransactions>{children}</RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
 }
 export default WalletProvider

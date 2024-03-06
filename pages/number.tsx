@@ -1,4 +1,4 @@
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 const abi = [
   {
     inputs: [
@@ -29,19 +29,20 @@ const abi = [
 ] as const
 const address = '0x4b79fcb4f4c2e0609d7ff2457dbca789d67aea44'
 
-const Number = () => {
-  const { data, isLoading, isError, error } = useContractRead({
+const NumberPage = () => {
+  const { data, isLoading, isError, error } = useReadContract({
     address,
     abi,
     functionName: 'retrieve',
   })
+  console.log('🚀 -> NumberPage -> data:', data);
   return (
     <div>
-      {data?.toNumber()}
+      {Number(data)}
       {isLoading && <div>Loading</div>}
       {isError && <div>{JSON.stringify(error)}</div>}
     </div>
   )
 }
 
-export default Number
+export default NumberPage

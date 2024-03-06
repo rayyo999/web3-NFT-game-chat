@@ -1,13 +1,14 @@
-import { FC } from 'react'
-import { useIsMounted } from '../../components/useIsMounted'
-import Link from 'next/link'
-import PenCards from '../../components/Nft/PenCards'
 import { motion } from 'framer-motion'
-import useFetchPenNft from '../../components/useFetchPenNft'
+import Link from 'next/link'
+import { FC } from 'react'
+import PenCards from '../../components/Nft/PenCards'
+import useFetchPenNftIds from '../../components/useFetchPenNftIds'
+import { useIsMounted } from '../../components/useIsMounted'
 
 const NftProvider: FC = () => {
   const isMounted = useIsMounted()
-  const penNfts = useFetchPenNft()
+  const penNftIds = useFetchPenNftIds()
+
   if (!isMounted) {
     return <></>
   }
@@ -22,7 +23,7 @@ const NftProvider: FC = () => {
             <p>enpower your army!</p>
           </motion.div>
         </Link>
-        {penNfts?.length ? (
+        {penNftIds?.length ? (
           <Link href='/nft/battle'>
             <motion.div
               className='bg-red-800 rounded-lg p-6 grid place-items-center'
@@ -39,7 +40,7 @@ const NftProvider: FC = () => {
         )}
       </div>
       <h3 className='p-2 text-3xl text-center'>Your Army</h3>
-      <PenCards penNfts={penNfts} isBattle={false} />
+      <PenCards isBattle={false} />
     </div>
   )
 }

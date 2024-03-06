@@ -1,3 +1,5 @@
+import { Address } from 'viem'
+
 const chatContractABI = [
   {
     inputs: [],
@@ -309,8 +311,9 @@ const chatContractABI = [
     type: 'receive',
   },
 ] as const
-export const chatContractAddress = '0x17AF179Aa501fBda8ca81df600677E1CBd66A084'
-export const defaultMessageReceiver = chatContractAddress.toLowerCase() as `0x${string}`
+
+export const chatContractAddress: Address = '0x17AF179Aa501fBda8ca81df600677E1CBd66A084'
+export const defaultMessageReceiver = chatContractAddress.toLowerCase() as Address
 export const chatContractObj = {
   address: chatContractAddress,
   abi: chatContractABI,

@@ -1,21 +1,20 @@
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
-import { Ichat } from '../../utils/types/Ichat'
-// import { useAccountContext } from '../AccountContext';
-import { Result } from 'ethers/lib/utils'
-import { useAccount, useContractRead } from 'wagmi'
+import { UseReadContractReturnType, useAccount, useReadContract } from 'wagmi'
 import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
 import { useIsMounted } from '../useIsMounted'
 
-const transformMessageAndReverse = (chats: Result | undefined) => {
+const transformMessageAndReverse = (
+  chats: UseReadContractReturnType<(typeof chatContractObj)['abi'], 'getAllChats'>['data']
+) => {
   return chats
     ?.map((chat) => {
       return {
-        index: chat.index,
+        index: Number(chat.index),
         from: chat.from,
         to: chat.to,
         message: chat.message,
-        time: chat.time,
+        time: Number(chat.time),
         isAddressShort: true,
       }
     })
@@ -33,14 +32,16 @@ const DisplayChats: FC = () => {
   const isMounted = useIsMounted()
   const { address } = useAccount()
   const currentAccount = useMemo(() => address?.toLowerCase(), [address])
-  const { data }: { data: Result | undefined } = useContractRead({
+
+  const { data } = useReadContract({
     ...chatContractObj,
     functionName: 'getAllChats',
-    watch: true,
   })
   const chats = useMemo(() => transformMessageAndReverse(data), [data])
+
   const [showType, setShowType] = useState(showTypes.PRIVATE)
   const [showChats, setShowChats] = useState(chats)
+
   const handleShortenAddress = (id: number) => {
     setShowChats((prev) =>
       prev?.map((chat) => {
@@ -48,6 +49,7 @@ const DisplayChats: FC = () => {
       })
     )
   }
+
   const toggleShowTypes = (type: string) => {
     switch (type) {
       case showTypes.ALL:
@@ -75,17 +77,15 @@ const DisplayChats: FC = () => {
     let filteredChats = chats
     if (showType === showTypes.PRIVATE) {
       filteredChats = chats?.filter(
-        (chat: Ichat) =>
+        (chat) =>
           chat.to.toLowerCase() !== defaultMessageReceiver &&
           (chat.to.toLowerCase() === currentAccount || chat.from.toLowerCase() === currentAccount)
       )
     } else if (showType === showTypes.PUBLIC) {
-      filteredChats = chats?.filter(
-        (chat: Ichat) => chat.to.toLowerCase() === defaultMessageReceiver
-      )
+      filteredChats = chats?.filter((chat) => chat.to.toLowerCase() === defaultMessageReceiver)
     }
     setShowChats(filteredChats)
-  }, [showType, chats])
+  }, [showType, chats, currentAccount])
 
   if (!isMounted) {
     return <></>
@@ -116,7 +116,7 @@ const DisplayChats: FC = () => {
         })}
       </motion.div>
       <motion.div layout>
-        {showChats?.map((chat: Ichat, index: number, array: Ichat[]) => {
+        {showChats?.map((chat, index, array) => {
           let hide = true
           let longAddress: JSX.Element | null = null
           let shortAddress: JSX.Element | null = null

@@ -1,30 +1,25 @@
-import { Result } from 'ethers/lib/utils'
-import { useMemo } from 'react'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { nftContractObj } from '../utils/contracts/nftContract'
 
 const useFetchBossNft = () => {
-  const { data: bossRawNft }: { data: Result | undefined } = useContractRead({
+  const { data: bossRawNft } = useReadContract({
     ...nftContractObj,
     functionName: 'boss',
-    watch: true,
   })
-  const transfromNFTData = (characterData: Result | undefined) => {
+
+  function transfromNFTData(characterData: NonNullable<typeof bossRawNft>) {
     return {
-      name: characterData?.name,
-      imageURI: characterData?.imageURI,
-      hp: characterData?.hp.toString(),
-      maxHp: characterData?.maxHp.toString(),
-      attackDamage: characterData?.attackDamage.toString(),
+      name: characterData[0],
+      imageURI: characterData[1],
+      hp: characterData[2].toString(),
+      maxHp: characterData[3].toString(),
+      attackDamage: characterData[4].toString(),
     }
   }
-  const bossNft = useMemo(() => {
-    if (!bossRawNft) {
-      return
-    }
-    return transfromNFTData(bossRawNft)
-  }, [bossRawNft])
-  return bossNft
+
+  if (!bossRawNft) return
+
+  return transfromNFTData(bossRawNft)
 }
 
 export default useFetchBossNft

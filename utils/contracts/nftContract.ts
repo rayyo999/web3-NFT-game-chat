@@ -1,3 +1,5 @@
+import { Address } from 'viem'
+
 const nftContractABI = [
   {
     inputs: [
@@ -739,7 +741,7 @@ const nftContractABI = [
   },
 ] as const
 
-export const nftContractAddress = '0x0DfB6b57DcDD0B3e37463863688cf6afd3847bEF'
+export const nftContractAddress: Address = '0x0DfB6b57DcDD0B3e37463863688cf6afd3847bEF'
 export const nftContractObj = {
   address: nftContractAddress,
   abi: nftContractABI,

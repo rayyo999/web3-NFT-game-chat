@@ -1,9 +1,9 @@
-import { utils } from 'ethers'
 import { motion } from 'framer-motion'
 import { FC, useState } from 'react'
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
 // import Loader from '../Loader'
+import { Address, isAddress } from 'viem'
 import { useIsMounted } from '../useIsMounted'
 
 // const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'.toLowerCase();
@@ -19,22 +19,15 @@ import { useIsMounted } from '../useIsMounted'
 const InputChats: FC = () => {
   const isMounted = useIsMounted()
   const [message, setMessage] = useState('')
-  const [receiver, setReceiver] = useState<`0x${string}`>(
-    '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'
-  )
+  const [receiver, setReceiver] = useState<Address>('0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373')
   const [receiverIsValid, setReceiverIsValid] = useState(true)
   const [isPrivate, setIsPrivate] = useState(false)
   // const [inputChatState, dispatch] = useReducer(
   // ChatReducer
   // inputChatStateInit
   // );
-  const { config } = usePrepareContractWrite({
-    ...chatContractObj,
-    functionName: 'chat',
-    args: [isPrivate ? receiver : defaultMessageReceiver, message],
-    // args: [receiver, message],
-  })
-  const { write, isLoading } = useContractWrite(config)
+  const { writeContract, status } = useWriteContract()
+
   const send = () => {
     if (message.length === 0) {
       alert('type something in it !')
@@ -44,7 +37,12 @@ const InputChats: FC = () => {
       alert('invalid address to send message!! check again or send by public')
       return
     }
-    write?.()
+
+    writeContract({
+      ...chatContractObj,
+      functionName: 'chat',
+      args: [isPrivate ? receiver : defaultMessageReceiver, message],
+    })
   }
   if (!isMounted) {
     return <></>
@@ -70,7 +68,7 @@ const InputChats: FC = () => {
               : 'flex-none w-20 p-2 bg-green-100 '
           }
           onClick={send}
-          disabled={!write}
+          disabled={status === 'pending'}
         >
           send
         </button>
@@ -103,8 +101,8 @@ const InputChats: FC = () => {
             placeholder='address'
             value={receiver}
             onChange={(e) => {
-              setReceiver(e.target.value as `0x${string}`)
-              if (utils.isAddress(e.target.value)) {
+              setReceiver(e.target.value as Address)
+              if (isAddress(e.target.value)) {
                 setReceiverIsValid(true)
               } else {
                 setReceiverIsValid(false)

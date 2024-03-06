@@ -9,7 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^0.8.1",
+    "@rainbow-me/rainbowkit": "^2.0.1",
+    "@tanstack/react-query": "^5.24.1",
     "dotenv": "^16.0.3",
     "ethers": "^5.6.9",
     "framer-motion": "^11.0.6",
@@ -17,7 +18,8 @@
     "next": "^14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "wagmi": "^0.9.2"
+    "viem": "^2.7.14",
+    "wagmi": "^2.5.7"
   },
   "devDependencies": {
     "@types/node": "20.11.20",

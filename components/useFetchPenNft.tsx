@@ -1,46 +1,31 @@
-import { Result } from 'ethers/lib/utils'
-import { useAccount, useContractRead, useContractReads } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { nftContractObj } from '../utils/contracts/nftContract'
-import { Inft } from '../utils/types/Inft'
 
-const useFetchPenNft = () => {
-  const { address: currentAccount } = useAccount()
-  const { data: tokenIds, isLoading: isLoadingPenNfts } = useContractRead({
+interface UseFetchPanNft {
+  tokenId: bigint
+}
+
+const useFetchPenNft = ({ tokenId }: UseFetchPanNft) => {
+  const { data: rawPenNft } = useReadContract({
     ...nftContractObj,
-    functionName: 'getTokenIds',
-    args: [currentAccount!],
-    select: (tokenIds) => tokenIds.map((tokenId) => tokenId.toNumber()),
-    watch: true,
-    overrides: { from: currentAccount },
-    enabled: !!currentAccount,
+    functionName: 'penOfTokenId',
+    args: [tokenId],
   })
-  const { data: rawPenNfts } = useContractReads({
-    contracts:
-      tokenIds?.map((tokenId) => {
-        return {
-          ...nftContractObj,
-          functionName: 'penOfTokenId',
-          args: [tokenId],
-        }
-      }) || [],
-    enabled: !!tokenIds,
-    watch: true,
-  })
-  const transfromNFTData = (characterData: Result, index: number): Inft => {
+
+  function transfromNFTData(characterData: NonNullable<typeof rawPenNft>) {
     return {
-      tokenId: tokenIds![index],
-      name: characterData.name,
-      imageURI: characterData.imageURI,
-      hp: characterData.hp.toString(),
-      maxHp: characterData.maxHp.toString(),
-      attackDamage: characterData.attackDamage.toString(),
+      tokenId: characterData[0],
+      name: characterData[1],
+      imageURI: characterData[2],
+      hp: characterData[3].toString(),
+      maxHp: characterData[4].toString(),
+      attackDamage: characterData[5].toString(),
     }
   }
-  const penNfts = rawPenNfts?.map((rawPenNft, index) => {
-    return transfromNFTData(rawPenNft, index)
-  })
 
-  return penNfts
+  if (!rawPenNft) return
+
+  return transfromNFTData(rawPenNft)
 }
 
 export default useFetchPenNft

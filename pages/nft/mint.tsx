@@ -1,30 +1,23 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useWriteContract } from 'wagmi'
 import { useIsMounted } from '../../components/useIsMounted'
 import { nftContractObj } from '../../utils/contracts/nftContract'
 
 const Mint: FC = () => {
   const [selectNftId, setSelectNftId] = useState(0)
   const isMounted = useIsMounted()
-  const { data: templateNfts } = useContractRead({
+  const { data: templateNfts } = useReadContract({
     ...nftContractObj,
     functionName: 'getTemplate',
   })
-  // const { config } = usePrepareContractWrite({
-  //   ...nftContractObj,
-  //   functionName: 'mint',
-  // })
-  // const { write: mint } = useContractWrite(config)
-  const { write: mint } = useContractWrite({
-    ...nftContractObj,
-    mode: 'recklesslyUnprepared',
-    functionName: 'mint',
-  })
+  const { writeContract: mint } = useWriteContract()
+
   if (!isMounted) {
     return <></>
   }
+
   return (
     <div className='bg-emerald-600 h-full p-4'>
       <Link href='/nft'>
@@ -59,7 +52,13 @@ const Mint: FC = () => {
               <button
                 type='button'
                 className='relative w-full py-1 text-white bg-blue-600 rounded-b-lg z-20'
-                onClick={() => mint?.({ recklesslySetUnpreparedArgs: [index] })}
+                onClick={() =>
+                  mint({
+                    ...nftContractObj,
+                    functionName: 'mint',
+                    args: [index],
+                  })
+                }
                 disabled={!mint}
               >{`Mint ${templateNft.name}`}</button>
             </motion.div>

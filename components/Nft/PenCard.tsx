@@ -1,15 +1,21 @@
-import { BigNumber } from 'ethers'
 import Image from 'next/image'
 import { FC } from 'react'
-import { Inft } from '../../utils/types/Inft'
 import useAttackBoss from '../useAttackBoss'
+import useFetchPenNft from '../useFetchPenNft'
 
 interface Props {
-  penNft: Inft
+  tokenId: bigint
   isBattle: boolean
 }
-const PenCard: FC<Props> = ({ penNft, isBattle }) => {
-  const { write: attack, isLoading } = useAttackBoss()
+
+const PenCard: FC<Props> = ({ tokenId, isBattle }) => {
+  const { attack } = useAttackBoss({ tokenId: tokenId })
+  const penNft = useFetchPenNft({ tokenId: tokenId })
+
+  if (!penNft) return null
+
+  if (isBattle && Number(penNft.hp) <= 0) return null
+
   return (
     <div className='bg-orange-300 px-2 pb-2 rounded-xl md:px-4'>
       <h2 className='py-2'>{penNft.name}</h2>
@@ -37,9 +43,7 @@ const PenCard: FC<Props> = ({ penNft, isBattle }) => {
       {isBattle && (
         <button
           className='w-full h-10 rounded-md bg-gradient-to-r from-orange-600 via-amber-400 to-red-600'
-          onClick={() => {
-            attack?.({ recklesslySetUnpreparedArgs: [BigNumber.from(penNft.tokenId)] })
-          }}
+          onClick={attack}
         >{`💥 Attack `}</button>
       )}
     </div>

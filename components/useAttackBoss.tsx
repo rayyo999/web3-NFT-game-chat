@@ -1,18 +1,22 @@
-import { useContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { nftContractObj } from '../utils/contracts/nftContract'
-// import nftContractInterface from '../utils/contracts/nftContract.json'
 
-const useAttackBoss = () => {
-  // const {config} = usePrepareContractWrite({
-  //   ...nftContractObj,
-  //   functionName: 'attack',
-  // });
-  // return useContractWrite(config)
-  return useContractWrite({
-    ...nftContractObj,
-    mode: 'recklesslyUnprepared',
-    functionName: 'attack',
-  })
+type UseAttackBoss = {
+  tokenId: bigint
+}
+
+const useAttackBoss = ({ tokenId }: UseAttackBoss) => {
+  const { writeContract, status } = useWriteContract()
+
+  return {
+    attack: () =>
+      writeContract({
+        ...nftContractObj,
+        functionName: 'attack',
+        args: [tokenId],
+      }),
+    status,
+  }
 }
 
 export default useAttackBoss
