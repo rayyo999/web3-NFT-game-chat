@@ -2,8 +2,9 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { useReadContract, useWriteContract } from 'wagmi'
-import { useIsMounted } from '../../components/useIsMounted'
-import { nftContractObj } from '../../utils/contracts/nftContract'
+
+import { useIsMounted } from '~/components/useIsMounted'
+import { nftContractObj } from '~/utils/contracts/nftContract'
 
 const Mint: FC = () => {
   const [selectNftId, setSelectNftId] = useState(0)

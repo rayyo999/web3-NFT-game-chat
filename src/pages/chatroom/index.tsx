@@ -1,6 +1,7 @@
-import { FC } from 'react';
-import DisplayChats from '../../components/ChatRoom/DisplayChats';
-import InputChats from '../../components/ChatRoom/InputChats';
+import { FC } from 'react'
+
+import DisplayChats from '~/components/ChatRoom/DisplayChats'
+import InputChats from '~/components/ChatRoom/InputChats'
 
 const ChatRoom: FC = () => {
   return (
@@ -8,9 +9,9 @@ const ChatRoom: FC = () => {
       <InputChats />
       <DisplayChats />
     </div>
-  );
-};
-export default ChatRoom;
+  )
+}
+export default ChatRoom
 
 // const a = {
 //   init: { x: 500, opacity: 0 },

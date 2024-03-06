@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { UseReadContractReturnType, useAccount, useReadContract } from 'wagmi'
-import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
-import { useIsMounted } from '../useIsMounted'
+
+import { useIsMounted } from '~/components/useIsMounted'
+import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 const transformMessageAndReverse = (
   chats: UseReadContractReturnType<(typeof chatContractObj)['abi'], 'getAllChats'>['data']

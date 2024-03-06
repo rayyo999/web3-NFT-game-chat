@@ -1,6 +1,7 @@
 import { Address } from 'viem'
 import { useAccount, useReadContract } from 'wagmi'
-import { nftContractObj } from '../utils/contracts/nftContract'
+
+import { nftContractObj } from '~/utils/contracts/nftContract'
 
 const useFetchPenNftIds = () => {
   const { address: currentAccount } = useAccount()

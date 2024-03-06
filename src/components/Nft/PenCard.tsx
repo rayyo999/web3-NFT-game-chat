@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { FC } from 'react'
-import useAttackBoss from '../useAttackBoss'
-import useFetchPenNft from '../useFetchPenNft'
+
+import useAttackBoss from '~/components/useAttackBoss'
+import useFetchPenNft from '~/components/useFetchPenNft'
 
 interface Props {
   tokenId: bigint

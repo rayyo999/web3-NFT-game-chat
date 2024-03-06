@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import Navbar from '../components/Navbar';
-import { motion, AnimatePresence } from 'framer-motion';
-// import AccountProvider from './AccountContext';
-import WalletProvider from './WalletProvider';
-import CheckNetWork from './CheckNetWork';
+import { AnimatePresence, motion } from 'framer-motion'
+import { FC } from 'react'
+
+import CheckNetWork from '~/components/CheckNetWork'
+import Navbar from '~/components/Navbar'
+import WalletProvider from '~/components/WalletProvider'
 
 const Layout: FC<any> = ({ router, children }) => {
   return (
@@ -27,9 +27,9 @@ const Layout: FC<any> = ({ router, children }) => {
         </div>
       </CheckNetWork>
     </WalletProvider>
-  );
-};
-export default Layout;
+  )
+}
+export default Layout
 
 const pagesAnimation = {
   init: {
@@ -49,4 +49,4 @@ const pagesAnimation = {
     // x: '100vw',
     // filter: `invert()`, //cool~
   },
-};
+}

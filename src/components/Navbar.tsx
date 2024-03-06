@@ -1,7 +1,8 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FC, useMemo } from 'react'
-import { motion } from 'framer-motion'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+
 const Navbar: FC = () => {
   const navContent = useMemo(() => ['Home', 'ChatRoom', 'NFT'], [])
   return (

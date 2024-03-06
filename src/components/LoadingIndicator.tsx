@@ -1,5 +1,7 @@
 import { FC } from 'react'
-import style from '../styles/LoadingIndicator.module.css'
+
+import style from '~/styles/LoadingIndicator.module.css'
+
 const LoadingIndicator: FC = () => {
   return (
     <div className={style.loader}>

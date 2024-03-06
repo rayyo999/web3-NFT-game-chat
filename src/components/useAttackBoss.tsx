@@ -1,5 +1,6 @@
 import { useWriteContract } from 'wagmi'
-import { nftContractObj } from '../utils/contracts/nftContract'
+
+import { nftContractObj } from '~/utils/contracts/nftContract'
 
 type UseAttackBoss = {
   tokenId: bigint

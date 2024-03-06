@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
 import { FC, useState } from 'react'
 import { useWriteContract } from 'wagmi'
-import { chatContractObj, defaultMessageReceiver } from '../../utils/contracts/chatContract'
 // import Loader from '../Loader'
 import { Address, isAddress } from 'viem'
-import { useIsMounted } from '../useIsMounted'
+
+import { useIsMounted } from '~/components/useIsMounted'
+import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 // const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'.toLowerCase();
 // const to = '0xbe61E58374B311E1266c1A2c100736A2D3c88789'.toLowerCase();

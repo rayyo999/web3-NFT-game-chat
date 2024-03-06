@@ -1,5 +1,6 @@
 import { useReadContract } from 'wagmi'
-import { nftContractObj } from '../utils/contracts/nftContract'
+
+import { nftContractObj } from '~/utils/contracts/nftContract'
 
 interface UseFetchPanNft {
   tokenId: bigint
