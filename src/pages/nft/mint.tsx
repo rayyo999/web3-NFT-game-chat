@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { useReadContract, useWriteContract } from 'wagmi'
@@ -44,10 +45,12 @@ const Mint: FC = () => {
                 ></motion.div>
               )}
               <div className='relative overflow-hidden rounded-t-lg'>
-                <img
+                <Image
                   src={templateNft.imageURI}
                   alt={templateNft.name}
-                  className='w-full aspect-square object-cover'
+                  width={400}
+                  height={400}
+                  className='aspect-square object-cover w-full'
                 />
               </div>
               <button
