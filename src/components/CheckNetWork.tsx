@@ -1,15 +1,11 @@
+'use client'
+
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { FC } from 'react'
 import { useChainId } from 'wagmi'
 
-import { useIsMounted } from '~/hooks/useIsMounted'
-
-const CheckNetWork: FC<any> = ({ children }) => {
-  const isMounted = useIsMounted()
+const CheckNetWork = ({ children }: { children: React.ReactNode }) => {
   const chainId = useChainId()
-  if (!isMounted) {
-    return <></>
-  }
+
   if (chainId !== 11155111) {
     return (
       <div className='flex flex-col h-screen items-center justify-center'>

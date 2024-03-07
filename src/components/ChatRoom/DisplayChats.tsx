@@ -1,8 +1,9 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { UseReadContractReturnType, useAccount, useReadContract } from 'wagmi'
 
-import { useIsMounted } from '~/hooks/useIsMounted'
 import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 const transformMessageAndReverse = (
@@ -30,7 +31,6 @@ enum showTypes {
 const showTypeList = Object.entries(showTypes).map(([, value]) => value)
 
 const DisplayChats: FC = () => {
-  const isMounted = useIsMounted()
   const { address } = useAccount()
   const currentAccount = useMemo(() => address?.toLowerCase(), [address])
 
@@ -87,10 +87,6 @@ const DisplayChats: FC = () => {
     }
     setShowChats(filteredChats)
   }, [showType, chats, currentAccount])
-
-  if (!isMounted) {
-    return <></>
-  }
 
   return (
     <div className='m-auto flex flex-col md:w-1/2'>

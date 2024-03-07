@@ -1,3 +1,5 @@
+'use client'
+
 import { Address } from 'viem'
 import { useAccount, useReadContract } from 'wagmi'
 

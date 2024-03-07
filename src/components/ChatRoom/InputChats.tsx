@@ -1,10 +1,11 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { FC, useState } from 'react'
 import { useWriteContract } from 'wagmi'
 // import Loader from '../Loader'
 import { Address, isAddress } from 'viem'
 
-import { useIsMounted } from '~/hooks/useIsMounted'
 import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatContract'
 
 // const from = '0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373'.toLowerCase();
@@ -18,7 +19,6 @@ import { chatContractObj, defaultMessageReceiver } from '~/utils/contracts/chatC
 //   isPrivate: false,
 // };
 const InputChats: FC = () => {
-  const isMounted = useIsMounted()
   const [message, setMessage] = useState('')
   const [receiver, setReceiver] = useState<Address>('0x93e726D9e9629A1cb0eD8ff4Ffd4123cbcb95373')
   const [receiverIsValid, setReceiverIsValid] = useState(true)
@@ -45,9 +45,7 @@ const InputChats: FC = () => {
       args: [isPrivate ? receiver : defaultMessageReceiver, message],
     })
   }
-  if (!isMounted) {
-    return <></>
-  }
+
   return (
     <motion.div layout className='p-4 m-auto md:w-1/2'>
       <div className='w-full flex rounded-xl overflow-hidden'>

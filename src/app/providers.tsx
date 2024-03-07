@@ -1,3 +1,5 @@
+'use client'
+
 import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import {
@@ -13,7 +15,6 @@ import {
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FC } from 'react'
 import { WagmiProvider, createConfig, fallback, http } from 'wagmi'
 import { localhost, mainnet, sepolia } from 'wagmi/chains'
 
@@ -83,11 +84,12 @@ const config = createConfig({
     [sepolia.id]: fallback([ALCHEMY_SEPOLIA_TRANSPORT, INFURA_SEPOLIA_TRANSPORT]),
     [localhost.id]: http(),
   },
+  ssr: true,
 })
 
 const queryClient = new QueryClient()
 
-const WalletProvider: FC<any> = ({ children }) => {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
@@ -96,4 +98,3 @@ const WalletProvider: FC<any> = ({ children }) => {
     </WagmiProvider>
   )
 }
-export default WalletProvider
