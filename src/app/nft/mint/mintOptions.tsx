@@ -1,12 +1,14 @@
 'use client'
 
+import { useState } from 'react'
 import { useReadContract } from 'wagmi'
 
-import { nanoid } from 'nanoid'
 import { nftContractObj } from '~/utils/contracts/nftContract'
 import MintOption from './mintOption'
 
 export default function MintOptions() {
+  const [selectNftId, setSelectNftId] = useState(0)
+
   const { data: templateNfts } = useReadContract({
     ...nftContractObj,
     functionName: 'getTemplate',
@@ -15,7 +17,15 @@ export default function MintOptions() {
   return (
     <div className='flex justify-center gap-2 mt-4'>
       {templateNfts?.map((templateNft, index) => {
-        return <MintOption key={nanoid()} templateNft={templateNft} templateNumber={index} />
+        return (
+          <MintOption
+            key={index}
+            templateNft={templateNft}
+            templateNumber={index}
+            selectNftId={selectNftId}
+            setSelectNftId={setSelectNftId}
+          />
+        )
       })}
     </div>
   )

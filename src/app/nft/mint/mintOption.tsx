@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { useWriteContract } from 'wagmi'
 
 import { nftContractObj } from '~/utils/contracts/nftContract'
@@ -10,6 +10,8 @@ import { nftContractObj } from '~/utils/contracts/nftContract'
 export default function MintOption({
   templateNft,
   templateNumber,
+  selectNftId,
+  setSelectNftId,
 }: {
   templateNft: {
     index: bigint
@@ -19,10 +21,10 @@ export default function MintOption({
     maxHp: bigint
     attackDamage: bigint
   }
-
   templateNumber: number
+  selectNftId: number
+  setSelectNftId: Dispatch<SetStateAction<number>>
 }) {
-  const [selectNftId, setSelectNftId] = useState(0)
   const { writeContract: mint } = useWriteContract()
 
   return (
